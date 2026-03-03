@@ -2,7 +2,7 @@
 
 public class ClassifiedAd
 {
-    public ClassifiedAdId Id { get; private set; }
+    public ClassifiedAdId Id { get;}
     private UserId _ownerId;
     private string _title;
     private string _text;
