@@ -2,17 +2,19 @@
 
 public class ClassifiedAd
 {
-    public Guid Id { get; private set; }
-    private Guid _ownerId;
+    public ClassifiedAdId Id { get; private set; }
+    private UserId _ownerId;
     private string _title;
     private string _text;
     private decimal _price;
 
-    public ClassifiedAd(Guid id)
+    public ClassifiedAd(ClassifiedAdId id,UserId ownerId)
     {
         if(id == default)
             throw new ArgumentException("Id must br specified",nameof(id));
+        
         Id = id;
+        _ownerId = ownerId;
     }
     
     public void SetTitle(string title)=> _title = title;
