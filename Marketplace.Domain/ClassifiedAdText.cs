@@ -3,11 +3,11 @@ using Marketplace.Framework;
 
 namespace Marketplace.Domain;
 
-public class ClassifiedAdTitle : Value<ClassifiedAdTitle>
+public class ClassifiedAdText : Value<ClassifiedAdText>
 {
     private readonly string _value;
     
-    private  ClassifiedAdTitle(string value)
+    private  ClassifiedAdText(string value)
     {
         if(string.IsNullOrWhiteSpace(value))
             throw new ArgumentException("Title cannot be empty", nameof(value));
@@ -18,7 +18,7 @@ public class ClassifiedAdTitle : Value<ClassifiedAdTitle>
         _value = value;
     }
 
-    public override bool Equals(ClassifiedAdTitle? other)
+    public override bool Equals(ClassifiedAdText? other)
     {
         if(other is null) return false;
         if (ReferenceEquals(this, other)) return true;
@@ -30,9 +30,9 @@ public class ClassifiedAdTitle : Value<ClassifiedAdTitle>
         return HashCode.Combine(_value);
     }
     
-    public static ClassifiedAdTitle FromString(string value) => new ClassifiedAdTitle(value);
+    public static ClassifiedAdText FromString(string value) => new ClassifiedAdText(value);
 
-    public static ClassifiedAdTitle FromHtml(string htmlTitle)
+    public static ClassifiedAdText FromHtml(string htmlTitle)
     {
         var supportedTags= htmlTitle
             .Replace("<i>","*")
@@ -40,6 +40,6 @@ public class ClassifiedAdTitle : Value<ClassifiedAdTitle>
             .Replace("<b>","**")
             .Replace("</b>","**");
 
-        return new ClassifiedAdTitle(Regex.Replace(supportedTags, "<.*?>", string.Empty));
+        return new ClassifiedAdText(Regex.Replace(supportedTags, "<.*?>", string.Empty));
     }
 }
