@@ -25,4 +25,6 @@ public class ClassifiedAdId:Value<ClassifiedAdId>
     {
         return HashCode.Combine(_value);
     }
+    
+    public static implicit operator Guid(ClassifiedAdId id) => id._value;
 }

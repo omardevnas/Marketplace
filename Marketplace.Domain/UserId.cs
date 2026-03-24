@@ -24,4 +24,5 @@ public class UserId:Value<UserId>
     {
         return HashCode.Combine(_value);
     }
+    public static implicit operator Guid(UserId id) => id._value;
 }

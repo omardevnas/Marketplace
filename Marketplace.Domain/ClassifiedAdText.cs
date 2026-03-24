@@ -42,4 +42,6 @@ public class ClassifiedAdText : Value<ClassifiedAdText>
 
         return new ClassifiedAdText(Regex.Replace(supportedTags, "<.*?>", string.Empty));
     }
+    
+    public static implicit operator string(ClassifiedAdText text) => text._value;
 }

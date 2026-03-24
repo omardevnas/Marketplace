@@ -42,4 +42,6 @@ public class ClassifiedAdTitle : Value<ClassifiedAdTitle>
 
         return new ClassifiedAdTitle(Regex.Replace(supportedTags, "<.*?>", string.Empty));
     }
+    
+    public static implicit operator string(ClassifiedAdTitle title) => title._value;
 }
