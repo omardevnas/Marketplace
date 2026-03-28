@@ -5,29 +5,22 @@ namespace Marketplace.Domain;
 
 public class ClassifiedAdText : Value<ClassifiedAdText>
 {
-    private readonly string _value;
+    public string Value { get; }
     
-    private  ClassifiedAdText(string value)
-    {
-        if(string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException("Title cannot be empty", nameof(value));
-        
-        if(value.Length > 100)
-            throw new ArgumentOutOfRangeException(nameof(value), "Title cannot be longer than 100 characters");
-
-        _value = value;
-    }
+    public  ClassifiedAdText(string value)
+    => Value = value;
+    
 
     public override bool Equals(ClassifiedAdText? other)
     {
         if(other is null) return false;
         if (ReferenceEquals(this, other)) return true;
-        return _value==other._value;
+        return Value==other.Value;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_value);
+        return HashCode.Combine(Value);
     }
     
     public static ClassifiedAdText FromString(string value) => new ClassifiedAdText(value);
@@ -43,5 +36,5 @@ public class ClassifiedAdText : Value<ClassifiedAdText>
         return new ClassifiedAdText(Regex.Replace(supportedTags, "<.*?>", string.Empty));
     }
     
-    public static implicit operator string(ClassifiedAdText text) => text._value;
+    public static implicit operator string(ClassifiedAdText text) => text.Value;
 }

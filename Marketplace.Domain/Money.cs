@@ -25,7 +25,7 @@ public class Money:Value<Money>
     }
     
     
-    private Money(decimal amount, CurrencyDetails currency)
+    protected Money(decimal amount, CurrencyDetails currency)
     {
         Amount = amount;
         Currency = currency;

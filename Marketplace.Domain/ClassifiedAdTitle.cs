@@ -5,43 +5,43 @@ namespace Marketplace.Domain;
 
 public class ClassifiedAdTitle : Value<ClassifiedAdTitle>
 {
-    private readonly string _value;
-    
-    private  ClassifiedAdTitle(string value)
+    public static ClassifiedAdTitle FromString(string title)
     {
-        if(string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException("Title cannot be empty", nameof(value));
-        
-        if(value.Length > 100)
-            throw new ArgumentOutOfRangeException(nameof(value), "Title cannot be longer than 100 characters");
-
-        _value = value;
+        CheckValidity(title);
+        return new ClassifiedAdTitle(title);
     }
-
+    public static ClassifiedAdTitle FromHtml(string htmlTitle)
+    {
+        var supportedTagsReplaced = htmlTitle
+            .Replace("<i>", "*")
+            .Replace("</i>", "*")
+            .Replace("<b>", "**")
+            .Replace("</b>", "**");
+        var value = Regex.Replace(supportedTagsReplaced,
+            "<.*?>", string.Empty);
+        CheckValidity(value);
+        return new ClassifiedAdTitle(value);
+    }
+    public string Value { get; }
+    internal ClassifiedAdTitle(string value) => Value = value;
+    public static implicit operator string(ClassifiedAdTitle title)
+        => title.Value;
+    private static void CheckValidity(string value)
+    {
+        if (value.Length > 100)
+            throw new ArgumentOutOfRangeException(
+                "Title cannot be longer that 100 characters",
+                nameof(value));
+    }
     public override bool Equals(ClassifiedAdTitle? other)
     {
         if(other is null) return false;
         if (ReferenceEquals(this, other)) return true;
-        return _value==other._value;
+        return Value==other.Value;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_value);
+        return HashCode.Combine(Value);
     }
-    
-    public static ClassifiedAdTitle FromString(string value) => new ClassifiedAdTitle(value);
-
-    public static ClassifiedAdTitle FromHtml(string htmlTitle)
-    {
-        var supportedTags= htmlTitle
-            .Replace("<i>","*")
-            .Replace("</i>","*")
-            .Replace("<b>","**")
-            .Replace("</b>","**");
-
-        return new ClassifiedAdTitle(Regex.Replace(supportedTags, "<.*?>", string.Empty));
-    }
-    
-    public static implicit operator string(ClassifiedAdTitle title) => title._value;
 }
