@@ -1,6 +1,8 @@
 using Asp.Versioning;
+using Marketplace.Api;
+using Marketplace.Framework;
 using Microsoft.OpenApi;
-
+using Commands= Marketplace.Contracts.ClassifiedAdds.V1;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
+builder.Services.AddScoped<IEntityStore, RavenDbEntityStore>();
+builder.Services.AddScoped<ClassifiedAdApplicationService>();
 
 builder.Services.AddApiVersioning(opt =>
 {
